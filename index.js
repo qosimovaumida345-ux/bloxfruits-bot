@@ -6,18 +6,20 @@ const TelegramBot = require('node-telegram-bot-api');
 // ==========================================
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Blox Fruits Bot 24/7 ishlamoqda!');
+    res.send('Blox Fruits Bot 24/7 ishlamoqda!');
 });
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server ${PORT}-portda ishga tushdi.`);
+    console.log(`Server ${PORT}-portda ishga tushdi.`);
 });
 
 // ==========================================
 // 2. BOT SOZLAMALARI VA TOKENLAR
 // ==========================================
 const token = '8689663085:AAEtRKVPpqOMgjhV1L0rdMDArSSkUpnrafU'; // Sizning bot tokeningiz
-const adminId = '-1003830831325'; // Blox Fruits Gruppangiz ID si (Videolar shu guruhga keladi)
+const adminId = '-1003830831325'; // Blox Fruits Gruppangiz ID si
+const webAppUrl = 'https://blox-fruits-shop.onrender.com'; // O'zingizning Web App silkangiz
+
 const bot = new TelegramBot(token, { polling: true });
 
 // Mijozlarning holatini saqlash uchun obyekt (Account sotish uchun)
@@ -29,8 +31,9 @@ let userStates = {};
 const mainMenu = {
     reply_markup: {
         keyboard: [
-            ['🛒 Mevalar (Saytga O\'tish)', '🚀 Account Boost'],
-            ['🤝 Account Oldi-Sotdi', '🌐 Saytimiz (GG Style)'],
+            // MANA SHU YERDA WEB APP TUGMASI TO'G'RI ULANDI!
+            [{ text: '🛒 Do\'konni Ochish (Web App)', web_app: { url: webAppUrl } }],
+            ['🤝 Account Oldi-Sotdi', '🚀 Account Boost'],
             ['📞 Adminga Yozish']
         ],
         resize_keyboard: true
@@ -63,10 +66,12 @@ bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text || '';
 
-    // A) BEKOR QILISH TUGMASI BOSILGANDA
+    // A) /start YOKI BEKOR QILISH BOSILGANDA
     if (text === '❌ Bekor Qilish' || text === '⬅️ Asosiy Menyuga Qaytish' || text === '/start') {
         delete userStates[chatId]; // Holatni tozalash
-        bot.sendMessage(chatId, "👋 *Blox Fruits Premium Do'koniga Xush Kelibsiz!*\n\nQuyidagi menyudan o'zingizga kerakli bo'limni tanlang:", {
+        
+        // Mijozga xabar va tepada ham Web App tugmasi
+        bot.sendMessage(chatId, "👋 *Blox Fruits Premium Do'koniga Xush Kelibsiz!*\n\n👇 Pastdagi **Do'konni Ochish** tugmasini bosib saytimizga kiring yoki menyudan foydalaning:", {
             parse_mode: "Markdown",
             ...mainMenu
         });
@@ -133,11 +138,8 @@ bot.on('message', async (msg) => {
             ...cancelMenu
         });
     }
-    else if (text === '🛒 Mevalar (Saytga O\'tish)' || text === '🌐 Saytimiz (GG Style)' || text === '🛍 Tayyor Accountlar' || text === '🚀 Account Boost') {
-        // Render orqali ishlaydigan tayyor do'koningiz silkasi qo'yildi
-        const siteLink = "https://blox-fruits-shop.onrender.com"; 
-        
-        bot.sendMessage(chatId, `🔥 Barcha mevalar, boost xizmatlari va tayyor accountlarni bizning rasmiy saytimizdan xarid qilishingiz mumkin!\n\n🌐 *Saytga kirish:* ${siteLink}`, {
+    else if (text === '🛍 Tayyor Accountlar' || text === '🚀 Account Boost') {
+        bot.sendMessage(chatId, `🔥 Barcha tayyor accountlar va boost xizmatlarini bizning Web App do'konimizdan xarid qilishingiz mumkin!\n\n👇 Pastdagi **🛒 Do'konni Ochish (Web App)** tugmasini bosing!`, {
             parse_mode: "Markdown"
         });
     }
