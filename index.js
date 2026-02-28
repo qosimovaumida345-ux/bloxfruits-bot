@@ -17,7 +17,7 @@ app.listen(PORT, () => {
 // 2. BOT SOZLAMALARI VA TOKENLAR
 // ==========================================
 const token = '8689663085:AAEtRKVPpqOMgjhV1L0rdMDArSSkUpnrafU'; // Sizning bot tokeningiz
-const adminId = '8572227182'; // Sizning ID raqamingiz
+const adminId = '-1003830831325'; // Blox Fruits Gruppangiz ID si (Videolar shu guruhga keladi)
 const bot = new TelegramBot(token, { polling: true });
 
 // Mijozlarning holatini saqlash uchun obyekt (Account sotish uchun)
@@ -134,8 +134,8 @@ bot.on('message', async (msg) => {
         });
     }
     else if (text === '🛒 Mevalar (Saytga O\'tish)' || text === '🌐 Saytimiz (GG Style)' || text === '🛍 Tayyor Accountlar' || text === '🚀 Account Boost') {
-        // DIQQAT: Pastdagi linkni Netlify'dan olgan O'ZINGIZNING saytingiz linkiga almashtiring!
-        const siteLink = "https://avgclub-bloxfruits.netlify.app"; 
+        // Render orqali ishlaydigan tayyor do'koningiz silkasi qo'yildi
+        const siteLink = "https://blox-fruits-shop.onrender.com"; 
         
         bot.sendMessage(chatId, `🔥 Barcha mevalar, boost xizmatlari va tayyor accountlarni bizning rasmiy saytimizdan xarid qilishingiz mumkin!\n\n🌐 *Saytga kirish:* ${siteLink}`, {
             parse_mode: "Markdown"
